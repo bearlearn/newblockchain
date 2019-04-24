@@ -15,6 +15,16 @@
     <result column="transaction_fees" jdbcType="DOUBLE" property="transactionFees" />
     <result column="merkle_root" jdbcType="CHAR" property="merkleRoot" />
   </resultMap>
+
+
+  <resultMap id="BlockViewDto" type="com.bear.blockchain.dto.BlockViewDto">
+    <result column="height" jdbcType="INTEGER" property="height" />
+    <result column="blockhash" jdbcType="VARCHAR" property="hash"/>
+    <result column="time" jdbcType="TIMESTAMP" property="time" />
+    <result column="tx_size" jdbcType="INTEGER" property="txSize" />
+    <result column="size_on_disk" jdbcType="BIGINT" property="sizeOnDisk" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     blockhash, blockchain_id, height, time, tx_size, size_on_disk, difficulty, prev_blockhash, 
     next_blockhash, output_total, transaction_fees, merkle_root
@@ -24,6 +34,15 @@
   <update id="cleanTable">
    truncate table block
   </update>
+
+
+  <select id="getMaxHeight" resultType="java.lang.Integer">
+    select MAX(height) FROM block
+  </select>
+
+  <select id="viewMore" resultMap="BlockViewMoreDto">
+    SELECT * FROM block WHERE block_time LIKE CONCAT('%',#{nowDate},'%')
+  </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
