@@ -1,6 +1,7 @@
 package com.bear.blockchain.dto;
 
 import java.util.Date;
+import java.util.List;
 
 public class TransactionInBlockDto {
 
@@ -11,6 +12,16 @@ public class TransactionInBlockDto {
     private Long size;
 
     private Date time;
+
+    private List<TxDetailTxInfo> txDetailTxInfo;
+
+    public List<TxDetailTxInfo> getTxDetailTxInfo() {
+        return txDetailTxInfo;
+    }
+
+    public void setTxDetailTxInfo(List<TxDetailTxInfo> txDetailTxInfo) {
+        this.txDetailTxInfo = txDetailTxInfo;
+    }
 
     public String getTxid() {
         return txid;

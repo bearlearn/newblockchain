@@ -1,6 +1,9 @@
 package com.bear.blockchain.dao;
 
+import com.bear.blockchain.dto.BlockListDto;
 import com.bear.blockchain.po.Block;
+
+import java.util.List;
 
 public interface BlockMapper {
     int deleteByPrimaryKey(String blockhash);
@@ -14,4 +17,10 @@ public interface BlockMapper {
     int updateByPrimaryKeySelective(Block record);
 
     int updateByPrimaryKey(Block record);
+
+    void cleanTable();
+
+    Integer getMaxHeight();
+
+    List<BlockListDto> getRecentBlocks(Integer blockchainId);
 }

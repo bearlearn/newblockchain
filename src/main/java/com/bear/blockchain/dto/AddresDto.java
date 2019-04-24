@@ -8,6 +8,7 @@ public class AddresDto {
     private Double finalBalance;
 
     public String getAddres() {
+
         return addres;
     }
 

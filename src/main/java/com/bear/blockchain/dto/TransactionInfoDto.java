@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class TransactionInfoDto {
+
     private String txId;
 
     private String txHash;

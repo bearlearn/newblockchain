@@ -37,6 +37,7 @@ public class BlockDetailDto {
     }
 
     public Integer getHeight() {
+
         return height;
     }
 

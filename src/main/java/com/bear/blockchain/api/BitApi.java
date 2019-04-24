@@ -54,7 +54,6 @@ public interface BitApi {
     @GetMapping("/rest/mempool/info.json")
     JSONObject getMempool();
 
-
     @GetMapping("/rest/mempool/contents.json")
     JSONObject getMempoolContents();
 

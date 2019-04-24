@@ -8,6 +8,7 @@ public class OutputStatusDto {
     private String txHash;
 
     public Integer getBlockHeight() {
+
         return blockHeight;
     }
 

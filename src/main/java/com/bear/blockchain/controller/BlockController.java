@@ -1,18 +1,43 @@
 package com.bear.blockchain.controller;
 
+import com.alibaba.fastjson.JSONObject;
+import com.bear.blockchain.api.BitApi;
+import com.bear.blockchain.api.BitcoinClient;
+import com.bear.blockchain.dao.BlockMapper;
 import com.bear.blockchain.dto.BlockDetailDto;
 import com.bear.blockchain.dto.BlockListDto;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.bear.blockchain.service.BlockService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.LinkedList;
 import java.util.List;
 
 
 @RestController
 @RequestMapping("/block")
+@EnableAutoConfiguration
+@CrossOrigin
 public class BlockController {
+
+
+
+    @Autowired
+    private BitApi bitApi;
+
+    @Autowired
+    private BitcoinClient bitcoinClient;
+
+    @Autowired
+    private BlockService blockService;
+
+    @Autowired
+    private MisController miscController;
+
+    @Autowired
+    private BlockMapper blockMapper;
+
 
     /**
      * 根据ID查询块
@@ -23,8 +48,34 @@ public class BlockController {
     public List<BlockListDto> getRecentBlocks(
             @RequestParam Integer blockchainId
 
-    ){
-        return null;
+    ) throws Throwable {
+
+
+        //List<BlockListDto> blockListDtos=blockService.getRecentBlocks(blockchainId);
+        // miscController.OutputFromHash(tempBlockhash,false);
+
+
+
+        //最新的hash值
+        String bestblockhash = bitcoinClient.getbestblockhash();
+        //创建list容器
+        List<BlockListDto> blockListDtos=new LinkedList<>();
+        String tempBlockhash=bestblockhash;
+
+        for (int i=0;i<5;i++){
+            JSONObject block = bitApi.getNoTxBlock(tempBlockhash);
+            BlockListDto blockListDTO = new BlockListDto();
+            blockListDTO.setHeight(block.getInteger("height"));
+            Long time = block.getLong("time");
+            blockListDTO.setTime(time * 1000);
+            blockListDTO.setTxSize(block.getJSONArray("tx").size());
+            blockListDTO.setSizeOnDisk(block.getLong("size"));
+            blockListDtos.add(blockListDTO);
+            tempBlockhash = block.getString("previousblockhash");
+        }
+
+        return blockListDtos;
+
     }
 
     /**
@@ -53,6 +104,7 @@ public class BlockController {
 
     ){
         return null;
+
     }
 
     /**

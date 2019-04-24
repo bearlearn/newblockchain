@@ -1,6 +1,7 @@
 package com.bear.blockchain.dto;
 
 public class TxDetailTxInfo {
+
     private String address;
 
     private Byte type;

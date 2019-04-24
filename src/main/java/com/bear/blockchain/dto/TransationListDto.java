@@ -13,6 +13,7 @@ public class TransationListDto {
 
 
     public String getTxId() {
+
         return txId;
     }
 
