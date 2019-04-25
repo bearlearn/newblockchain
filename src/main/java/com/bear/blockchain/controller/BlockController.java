@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -91,30 +93,24 @@ public class BlockController {
 
     /**
      * 页面块信息列表,并且判断是上一页还是下一页
+     * 并且根据前端选择的时间去同步数据
      * @param isPage
      * @return
      */
     @GetMapping("getBlockView")
     public List<BlockViewDto> getBlockView(
-            @RequestParam(required = false,defaultValue = "") String isPage){
-        LocalDate now = LocalDate.now();
-        String date = now.toString();
-        String[] split = date.split("-");
-        int day=0;
-        if (isPage.equals("pre")){
-            int i = Integer.parseInt(split[2]);
-            day= i - 1;
-        }else if (isPage.equals("next")){
-            int i = Integer.parseInt(split[2]);
-            day= i + 1;
+            @RequestParam(required = false,defaultValue = "") String isPage,
+            @RequestParam(required = false,defaultValue = "") Long now){
+        String newTime=null;
+        if (now.equals("")){
+            newTime=LocalDate.now().toString();
         }else {
-            day=Integer.parseInt(split[2]);
+            Date date = new Date(now);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            newTime = simpleDateFormat.format(date);
         }
-        LocalDate nowDate = LocalDate.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), day);
 
-        System.out.println(nowDate.toString());
-
-        List<BlockViewDto> viewDTOS = blockMapper.viewMore(nowDate.toString());
+        List<BlockViewDto> viewDTOS = blockMapper.viewMore(newTime);
 
         return viewDTOS;
     }
