@@ -40,8 +40,8 @@
     select MAX(height) FROM block
   </select>
 
-  <select id="viewMore" resultMap="BlockViewMoreDto">
-    SELECT * FROM block WHERE block_time LIKE CONCAT('%',#{nowDate},'%')
+  <select id="viewMore" resultMap="BlockViewDto">
+    SELECT * FROM block WHERE `time` LIKE CONCAT('%',#{nowDate},'%')
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

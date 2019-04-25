@@ -35,7 +35,7 @@ public class BlockController {
     private BlockService blockService;
 
     @Autowired
-    private MisController miscController;
+    private MisController misController;
 
     @Autowired
     private BlockMapper blockMapper;
@@ -54,7 +54,7 @@ public class BlockController {
 
 
         //List<BlockListDto> blockListDtos=blockService.getRecentBlocks(blockchainId);
-        // miscController.OutputFromHash(tempBlockhash,false);
+
 
 
 
@@ -63,7 +63,7 @@ public class BlockController {
         //创建list容器
         List<BlockListDto> blockListDtos=new LinkedList<>();
         String tempBlockhash=bestblockhash;
-
+         misController.OutputFromHash(tempBlockhash,false);
         for (int i=0;i<5;i++){
 
             JSONObject block = bitApi.getNoTxBlock(tempBlockhash);
@@ -90,7 +90,7 @@ public class BlockController {
     }
 
     /**
-     * 页面块信息列表,分页
+     * 页面块信息列表,并且判断是上一页还是下一页
      * @param isPage
      * @return
      */
@@ -111,7 +111,9 @@ public class BlockController {
             day=Integer.parseInt(split[2]);
         }
         LocalDate nowDate = LocalDate.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), day);
+
         System.out.println(nowDate.toString());
+
         List<BlockViewDto> viewDTOS = blockMapper.viewMore(nowDate.toString());
 
         return viewDTOS;

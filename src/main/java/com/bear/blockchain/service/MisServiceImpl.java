@@ -77,9 +77,13 @@ public class MisServiceImpl implements MiscService {
         }
         block.setTxSize(txs.size());
         block.setSizeOnDisk(jsonObject.getLong("size"));
+
         block.setDifficulty(jsonObject.getDouble("difficulty"));
+
         block.setPrevBlockhash(jsonObject.getString("previousblockhash"));
+
         block.setNextBlockhash(jsonObject.getString("nextblockhash"));
+
         block.setMerkleRoot(jsonObject.getString("merkleroot"));
 
         blockMapper.insert(block);

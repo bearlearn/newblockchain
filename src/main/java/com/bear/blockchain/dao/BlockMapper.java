@@ -24,7 +24,7 @@ public interface BlockMapper {
 
     Integer getMaxHeight();
 
-   List<BlockListDto> getRecentBlocks(@Param("blockchainId")Integer blockchainId);
+    List<BlockListDto> getRecentBlocks(@Param("blockchainId")Integer blockchainId);
 
     List<BlockViewDto> viewMore(@Param("nowDate")String nowDate);
 }
