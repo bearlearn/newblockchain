@@ -48,7 +48,7 @@ public class BlockController {
      * @param blockchainId
      * @return
      */
-    @GetMapping("/getRecentBlocksById")
+    @GetMapping("/getRecentBlocks")
     public List<BlockListDto> getRecentBlocks(
             @RequestParam Integer blockchainId
 
@@ -62,17 +62,19 @@ public class BlockController {
 
         //最新的hash值
         String bestblockhash = bitcoinClient.getbestblockhash();
+
+        System.out.println(bestblockhash);
         //创建list容器
         List<BlockListDto> blockListDtos=new LinkedList<>();
         String tempBlockhash=bestblockhash;
-         misController.OutputFromHash(tempBlockhash,false);
+       //  misController.OutputFromHash(tempBlockhash,false);
         for (int i=0;i<5;i++){
 
             JSONObject block = bitApi.getNoTxBlock(tempBlockhash);
 
             BlockListDto blockListDTO = new BlockListDto();
 
-            blockListDTO.setHeight(block.getInteger("height"));
+            blockListDTO.setHeight(block.getInteger("height")-1);
 
             Long time = block.getLong("time");
 
@@ -154,10 +156,17 @@ public class BlockController {
      */
     @RequestMapping("getBlockDetailByHeight")
     public BlockDetailDto getBlockDetailByHeight(
-            @RequestParam String blockHeight
+            @RequestParam Integer blockHeight
+    ) throws Throwable {
 
-    ){
-        return null;
+        // 通过 高度获取块 hash
+        String blockHash = bitcoinClient.getBlockHashByHeight(blockHeight);
+        //获取块
+        JSONObject block = bitApi.getBlock(blockHash);
+
+        BlockDetailDto blockDetailDto=blockService.getBlockDetailDto(block);
+
+        return blockDetailDto;
     }
 
 

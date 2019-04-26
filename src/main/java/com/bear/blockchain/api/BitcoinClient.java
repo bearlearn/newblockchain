@@ -78,4 +78,24 @@ public class BitcoinClient {
         return rawTransaction;
     }
 
+    /**
+     * 获取交易池信息
+     * @return
+     * @throws Throwable
+     */
+    public JSONArray getrawmempool() throws Throwable {
+        JSONArray getrawmempool = jsonRpcHttpClient.invoke("getrawmempool", new Object[]{false}, JSONArray.class);
+        return getrawmempool;
+    }
+
+    /**
+     * 获取交易详细信息
+     * @param memHash
+     * @return
+     * @throws Throwable
+     */
+    public JSONObject getmempoolentry(String memHash) throws Throwable {
+        JSONObject getrawmempool = jsonRpcHttpClient.invoke("getmempoolentry", new Object[]{memHash}, JSONObject.class);
+        return getrawmempool;
+    }
 }

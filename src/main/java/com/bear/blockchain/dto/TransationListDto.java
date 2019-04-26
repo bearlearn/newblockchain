@@ -7,7 +7,7 @@ public class TransationListDto {
 
     private String txHash;
 
-    private Date txTime;
+    private Long txTime;
 
     private Double amount;
 
@@ -29,11 +29,11 @@ public class TransationListDto {
         this.txHash = txHash;
     }
 
-    public Date getTxTime() {
+    public Long getTxTime() {
         return txTime;
     }
 
-    public void setTxTime(Date txTime) {
+    public void setTxTime(Long txTime) {
         this.txTime = txTime;
     }
 
