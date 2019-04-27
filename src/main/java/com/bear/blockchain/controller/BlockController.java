@@ -54,20 +54,16 @@ public class BlockController {
 
     ) throws Throwable {
 
-
         //List<BlockListDto> blockListDtos=blockService.getRecentBlocks(blockchainId);
-
-
-
 
         //最新的hash值
         String bestblockhash = bitcoinClient.getbestblockhash();
 
-        System.out.println(bestblockhash);
+        //System.out.println(bestblockhash);
         //创建list容器
         List<BlockListDto> blockListDtos=new LinkedList<>();
         String tempBlockhash=bestblockhash;
-       //  misController.OutputFromHash(tempBlockhash,false);
+        //misController.OutputFromHash(tempBlockhash,false);
         for (int i=0;i<5;i++){
 
             JSONObject block = bitApi.getNoTxBlock(tempBlockhash);
@@ -94,8 +90,8 @@ public class BlockController {
     }
 
     /**
-     * 页面块信息列表,并且判断是上一页还是下一页
-     * 并且根据前端选择的时间去同步数据
+     * 页面块信息列表,获取当天时间搓
+     * 并且根据前端选择的时间去查询交易信息
      * @param isPage
      * @return
      */
@@ -104,6 +100,8 @@ public class BlockController {
             @RequestParam(required = false,defaultValue = "") String isPage,
             @RequestParam(required = false,defaultValue = "") Long now){
         String newTime=null;
+
+        System.out.println(now);
         if (now.equals("")){
             newTime=LocalDate.now().toString();
         }else {
@@ -111,7 +109,7 @@ public class BlockController {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             newTime = simpleDateFormat.format(date);
         }
-
+        System.out.println(newTime);
         List<BlockViewDto> viewDTOS = blockMapper.viewMore(newTime);
 
         return viewDTOS;

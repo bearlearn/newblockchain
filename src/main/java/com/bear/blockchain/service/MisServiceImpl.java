@@ -115,36 +115,55 @@ public class MisServiceImpl implements MiscService {
     }
 
     public void importVoutDetail(JSONObject vout,String txid){
+
         TransactionDetail transactionDetail = new TransactionDetail();
+
         transactionDetail.setTxHash(txid);
+
         JSONObject scriptPubKey = vout.getJSONObject("scriptPubKey");
+
         JSONArray addresses = scriptPubKey.getJSONArray("addresses");
+
         if (addresses!=null && !addresses.isEmpty()){
             transactionDetail.setAddress(addresses.getString(0));
         }
         transactionDetail.setAmount(vout.getDouble("value"));
+
         transactionDetail.setType((byte) TransactionEnums.Receive.ordinal());
 
         transactionDetailMapper.insert(transactionDetail);
     }
 
     public void importVinDetail(JSONObject vin,String txidOrigin) throws Throwable {
+
         String txid = vin.getString("txid");
+
         Integer vout=vin.getInteger("vout");
 
         JSONObject rawTransaxtion = bitcoinClient.getRawTransaxtion(txid);
+
         JSONArray vouts = rawTransaxtion.getJSONArray("vout");
+
         JSONObject jsonObject = vouts.getJSONObject(vout);
 
         TransactionDetail transactionDetail = new TransactionDetail();
+
         transactionDetail.setTxHash(txidOrigin);
+
         transactionDetail.setType((byte) TransactionEnums.Send.ordinal());
+
         Double amount = jsonObject.getDouble("value");
+
         transactionDetail.setAmount(amount);
+
         JSONObject scriptPubKey = jsonObject.getJSONObject("scriptPubKey");
+
         JSONArray addresses = scriptPubKey.getJSONArray("addresses");
+
         if (addresses!=null && !addresses.isEmpty()){
+
             transactionDetail.setAddress(addresses.getString(0));
+
         }
 
         transactionDetailMapper.insert(transactionDetail);
