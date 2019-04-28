@@ -74,8 +74,4 @@ public class MisController {
         return null;
     }
 
-    public void logHeight(){
-
-    }
-
 }

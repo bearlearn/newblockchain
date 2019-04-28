@@ -8,6 +8,7 @@ import com.bear.blockchain.dao.TransactionDetailMapper;
 import com.bear.blockchain.dto.TransactionInBlockDto;
 import com.bear.blockchain.dto.TransactionInfoDto;
 import com.bear.blockchain.dto.TransationListDto;
+import com.bear.blockchain.util.VinVout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.*;
@@ -95,11 +96,19 @@ public class TransactionController {
      * @return
      */
     @RequestMapping("getTransactionInfoByTxhash")
-    public TransactionInfoDto getTransactionInfoByTxhash(
+    public TransactionInBlockDto getTransactionInfoByTxhash(
             @RequestParam String txHash
     ) throws Throwable {
-        transactionDetailMapper.getTransactionInfoByTxhash(txHash);
-        return transactionDetailMapper.getTransactionInfoByTxhash(txHash);
+        JSONObject tx = bitcoinClient.getRawTransaxtion(txHash);
+        VinVout vinVout = new VinVout();
+        Date date=null;
+        if (tx.getLong("time")==null){
+            date= new Date();
+        }else {
+            date=new Date(tx.getLong("time") * 1000);
+        }
+        TransactionInBlockDto transactionInBlockDto = vinVout.vin(tx, date, bitcoinClient);
+        return transactionInBlockDto;
     }
 
 

@@ -63,7 +63,8 @@ public class BlockController {
         //创建list容器
         List<BlockListDto> blockListDtos=new LinkedList<>();
         String tempBlockhash=bestblockhash;
-        //misController.OutputFromHash(tempBlockhash,false);
+        //同步数据库
+        misController.OutputFromHash(tempBlockhash,false);
         for (int i=0;i<5;i++){
 
             JSONObject block = bitApi.getNoTxBlock(tempBlockhash);
@@ -92,12 +93,11 @@ public class BlockController {
     /**
      * 页面块信息列表,获取当天时间搓
      * 并且根据前端选择的时间去查询交易信息
-     * @param isPage
+     * @param now
      * @return
      */
     @GetMapping("getBlockView")
     public List<BlockViewDto> getBlockView(
-            @RequestParam(required = false,defaultValue = "") String isPage,
             @RequestParam(required = false,defaultValue = "") Long now){
         String newTime=null;
 

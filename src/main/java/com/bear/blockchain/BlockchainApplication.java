@@ -21,8 +21,10 @@ import org.springframework.web.socket.config.annotation.EnableWebSocket;
 @EnableScheduling
 
 public class BlockchainApplication {
+
     public static void main(String[] args) {
         SpringApplication.run(BlockchainApplication.class, args);
     }
+
 
 }

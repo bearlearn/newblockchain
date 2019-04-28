@@ -9,9 +9,15 @@ public class TransactionInBlockDto {
 
     private String txhash;
 
+    private String weight;
+
     private Long size;
 
     private Date time;
+
+    private Double input;
+
+    private Double output;
 
     private List<TxDetailTxInfo> txDetailTxInfo;
 
@@ -21,6 +27,30 @@ public class TransactionInBlockDto {
 
     public void setTxDetailTxInfo(List<TxDetailTxInfo> txDetailTxInfo) {
         this.txDetailTxInfo = txDetailTxInfo;
+    }
+
+    public String getWeight() {
+        return weight;
+    }
+
+    public void setWeight(String weight) {
+        this.weight = weight;
+    }
+
+    public Double getInput() {
+        return input;
+    }
+
+    public void setInput(Double input) {
+        this.input = input;
+    }
+
+    public Double getOutput() {
+        return output;
+    }
+
+    public void setOutput(Double output) {
+        this.output = output;
     }
 
     public String getTxid() {
